@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+  import { appStore } from './stores/App.store.ts';
+
+  const store = appStore()
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>
+    My ToDo App
+  </h1>
+  <input type="text" v-model="textInput"/>
+  <button @click="store.addTodo(textInput)">
+    add
+  </button>
+  <button>
+    remove done
+  </button> 
+  <ul>
+    <li v-for="item of store.todos">
+      <input type="checkbox" id="checkbox" :v-model="item.isDone" />
+      <label for="checkbox">
+        {{item.content}}
+      </label>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
