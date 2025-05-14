@@ -12,7 +12,7 @@
   <button @click="store.addTodo(textInput)">
     add
   </button>
-  <button>
+  <button @click="store.removeDoneTodos()">
     remove done
   </button> 
   <ul>

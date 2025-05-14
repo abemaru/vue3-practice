@@ -20,12 +20,17 @@ export const appStore = defineStore('todo', {
   },
 
   actions: {
-    addTodo(todoContent: strin): void {
+    addTodo(todoContent: string): void {
       this.todoList.push({
         content: todoContent,
-        isDone: false
+        isDone: true
       });
       console.log(this.todoList)
+    },
+    removeDoneTodos(): void {
+      this.todoList = this.todoList.filter((todo) => {
+        todo.isDone === false;
+      });
     },
   },
 })
