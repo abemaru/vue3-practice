@@ -1,25 +1,33 @@
 <script setup lang="ts">
-  import { appStore } from './stores/App.store.ts';
+import { computed } from 'vue';
+import { appStore } from './stores/App.store.ts';
 
-  const store = appStore()
+const store = appStore()
+
+// 画面表示
+const tasksLeft = computed(() => store.countTodos)
+let textInput = '' as string;
 </script>
 
 <template>
   <h1>
     My ToDo App
   </h1>
-  <input type="text" v-model="textInput"/>
+  <p>
+    You Have {{ tasksLeft }} tasks to do !
+  </p>
+  <input type="text" v-model="textInput" />
   <button @click="store.addTodo(textInput)">
     add
   </button>
   <button @click="store.removeDoneTodos()">
     remove done
-  </button> 
+  </button>
   <ul>
     <li v-for="item of store.todos">
-      <input type="checkbox" id="checkbox" :v-model="item.isDone" />
+      <input type="checkbox" @change="store.updateTodoStatus(item.id)" :v-model="item.isDone" />
       <label for="checkbox">
-        {{item.content}}
+        {{ item.content }}
       </label>
     </li>
   </ul>
@@ -32,9 +40,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }

@@ -1,37 +1,49 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { v4 as uuidv4 } from "uuid";
 
 interface Todo {
-  content: string,
-  isDone: boolean
-};
+  id: string;
+  content: string;
+  isDone: boolean;
+}
 
-export const appStore = defineStore('todo', {
+const TodoList: Todo[] = [];
+
+export const appStore = defineStore("todo", {
   state: () => {
     return {
-      textInput: '' as string,
-      todoList: [] as Todo[],
+      id: "" as string,
+      textInput: "" as string,
+      todoList: TodoList,
       todo: null as Todo | null,
-    }
+    };
   },
 
   getters: {
     todos: (state) => state.todoList,
-    countTodos: (state) => state.todoList.length(),
+    countTodos: (state) => state.todoList.length,
   },
 
   actions: {
     addTodo(todoContent: string): void {
       this.todoList.push({
+        id: uuidv4(),
         content: todoContent,
-        isDone: true
+        isDone: true,
       });
-      console.log(this.todoList)
     },
     removeDoneTodos(): void {
-      this.todoList = this.todoList.filter((todo) => {
-        todo.isDone === false;
+      this.todoList = this.todoList.filter((t: Todo) => {
+        !t.isDone;
       });
+      console.log(this.todoList);
+    },
+    updateTodoStatus(itemId: string): void {
+      const idx = this.todoList.findIndex((item: Todo) => item.id === itemId);
+      if (idx !== -1) {
+        this.todoList[idx].isDone = !this.todoList[idx].isDone;
+      }
+      console.log(this.todoList);
     },
   },
-})
-
+});
