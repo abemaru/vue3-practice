@@ -29,12 +29,12 @@ export const appStore = defineStore("todo", {
       this.todoList.push({
         id: uuidv4(),
         content: todoContent,
-        isDone: true,
+        isDone: false,
       });
     },
     removeDoneTodos(): void {
       this.todoList = this.todoList.filter((t: Todo) => {
-        !t.isDone;
+        return t.isDone;
       });
       console.log(this.todoList);
     },
