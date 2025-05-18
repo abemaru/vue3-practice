@@ -29,6 +29,8 @@ export const appStore = defineStore("todo", {
       this.todoList.push({
         id: uuidv4(),
         content: todoContent,
+        // TODO: ここをfalseにしていることに気づかずupdateTodoStatusで反転していた
+        // タスクを作るときは定数かなにかでTaskUnDone = false、完了にするときは TaskDone = trueみたいにしたほうがいいかも？
         isDone: false,
       });
     },
