@@ -1,10 +1,17 @@
 import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 
+const TaskStatus = {
+  done: true,
+  notDone: false,
+} as const;
+
+type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus];
+
 interface Todo {
   id: string;
   content: string;
-  isDone: boolean;
+  isDone: TaskStatus;
 }
 
 const TodoList: Todo[] = [];
@@ -29,9 +36,7 @@ export const appStore = defineStore("todo", {
       this.todoList.push({
         id: uuidv4(),
         content: todoContent,
-        // TODO: ここをfalseにしていることに気づかずupdateTodoStatusで反転していた
-        // タスクを作るときは定数かなにかでTaskUnDone = false、完了にするときは TaskDone = trueみたいにしたほうがいいかも？
-        isDone: false,
+        isDone: TaskStatus.notDone,
       });
     },
     removeDoneTodos(): void {
