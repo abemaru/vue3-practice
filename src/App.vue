@@ -4,7 +4,6 @@ import { appStore } from './stores/App.store.ts';
 
 const store = appStore()
 
-// 画面表示
 const tasksLeft = computed(() => store.countTodos)
 let textInput = '' as string;
 </script>
@@ -16,13 +15,9 @@ let textInput = '' as string;
   <p>
     You Have {{ tasksLeft }} tasks to do !
   </p>
-  <input type="text" v-model="textInput" />
-  <button @click="store.addTodo(textInput)">
-    add
-  </button>
-  <button @click="store.removeDoneTodos()">
-    remove done
-  </button>
+  <h2>
+    Your Tasks
+  </h2>
   <ul>
     <li v-for="item of store.todos">
       <input type="checkbox" v-model="item.status" />
@@ -31,6 +26,16 @@ let textInput = '' as string;
       </label>
     </li>
   </ul>
+  <h2>
+    Add Tasks
+  </h2>
+  <input type="text" v-model="textInput" />
+  <button @click="store.addTodo(textInput)">
+    add
+  </button>
+  <button @click="store.removeDoneTodos()">
+    remove done
+  </button>
 </template>
 
 <style scoped>
