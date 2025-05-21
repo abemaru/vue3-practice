@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const TaskStatus = {
   done: true,
-  notDone: false,
+  working: false,
 } as const;
 
 type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus];
@@ -11,7 +11,7 @@ type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus];
 interface Todo {
   id: string;
   content: string;
-  isDone: TaskStatus;
+  status: TaskStatus;
 }
 
 const TodoList: Todo[] = [];
@@ -36,21 +36,13 @@ export const appStore = defineStore("todo", {
       this.todoList.push({
         id: uuidv4(),
         content: todoContent,
-        isDone: TaskStatus.notDone,
+        status: TaskStatus.working,
       });
     },
     removeDoneTodos(): void {
-      this.todoList = this.todoList.filter((t: Todo) => {
-        return t.isDone;
-      });
-      console.log(this.todoList);
-    },
-    updateTodoStatus(itemId: string): void {
-      const idx = this.todoList.findIndex((item: Todo) => item.id === itemId);
-      if (idx !== -1) {
-        this.todoList[idx].isDone = !this.todoList[idx].isDone;
-      }
-      console.log(this.todoList);
+      this.todoList = this.todoList.filter(
+        (item: Todo) => item.status === TaskStatus.working,
+      );
     },
   },
 });

@@ -25,7 +25,7 @@ let textInput = '' as string;
   </button>
   <ul>
     <li v-for="item of store.todos">
-      <input type="checkbox" @change="store.updateTodoStatus(item.id)" :v-model="item.isDone" />
+      <input type="checkbox" v-model="item.status" />
       <label for="checkbox">
         {{ item.content }}
       </label>
