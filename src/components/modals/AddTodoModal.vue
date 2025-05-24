@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-defineProps({
-  visible: Boolean
-})
-const emit = defineEmits(['close', 'submit'])
+
+const { visible = false } = defineProps<{ visible: boolean }>()
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'submit', value: string): void
+}>()
+
 const todoTitle = ref('')
 
 watch(() => visible, (newVal) => {
   if (newVal) {
     todoTitle.value = ''
   }
-  closeModal()
 })
 
 function submit(): void {
   if (!todoTitle.value.trim()) return
-  emit('submit', {
-    todoTitle: todoTitle.value
-  })
+  emit('submit', todoTitle.value)
   closeModal()
 }
 

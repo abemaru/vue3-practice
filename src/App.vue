@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { appStore } from './stores/App.store.ts';
+import { ref, computed } from 'vue'
+import { appStore } from './stores/App.store.ts'
+import AddTodoModal from './components/modals/AddTodoModal.vue'
 
 const store = appStore()
 
+const showModal = ref(false)
 const tasksLeft = computed(() => store.countTodos)
-let textInput = '' as string;
+
+function handleAddTodo(todoContent: string): void {
+  store.addTodo(todoContent)
+  showModal.value = false
+}
 </script>
 
 <template>
@@ -29,13 +35,13 @@ let textInput = '' as string;
   <h2>
     Add Tasks
   </h2>
-  <input type="text" v-model="textInput" />
-  <button @click="store.addTodo(textInput)">
-    add
+  <button @click="showModal = true">
+    open modal
   </button>
   <button @click="store.removeDoneTodos()">
     remove done
   </button>
+  <AddTodoModal :visible="showModal" @close="showModal = false" @submit="handleAddTodo" />
 </template>
 
 <style scoped>
