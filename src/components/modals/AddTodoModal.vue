@@ -4,8 +4,8 @@ import { ref, watch } from 'vue';
 const { visible = false } = defineProps<{ visible: boolean }>()
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'submit', value: string): void
+  close: []
+  submit: [value: string]
 }>()
 
 const todoTitle = ref('')
