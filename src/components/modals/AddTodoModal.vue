@@ -30,8 +30,10 @@ function closeModal(): void {
 <template>
   <div v-if="visible" class="modal-overlay" @click.self="closeModal">
     <div class="modal-contents">
-      <header>
-        <slot name="header">Add Your Todo</slot>
+      <header class="modal-header">
+        <h2>
+          <slot name="header">Adding Your Todo</slot>
+        </h2>
       </header>
       <section class="modal-body">
         <form @submit.prevent="submit">
@@ -49,3 +51,31 @@ function closeModal(): void {
     </div>
   </div>
 </template>
+
+<style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-contents {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 40%;
+  height: 40%;
+  border-radius: 10px;
+}
+
+.modal-header {
+  color: black;
+}
+
+.modal-footer {
+  text-align: right;
+}
+</style>
