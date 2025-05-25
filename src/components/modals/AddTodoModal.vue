@@ -38,7 +38,8 @@ function closeModal(): void {
       <section class="modal-body">
         <form @submit.prevent="submit">
           <div class="form-group">
-            <label for="title">Task Name</label>
+            <label for="title">Task Name: </label>
+            <br>
             <input id="title" v-model="todoTitle" type="text" required placeholder="study vue3..." />
           </div>
         </form>
@@ -60,19 +61,34 @@ function closeModal(): void {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-contents {
-  background: white;
+  background: #2d3436;
+  text-align: left;
+  color: black;
   margin: 10% auto;
-  padding: 20px;
-  width: 40%;
-  height: 40%;
+  padding: 30px;
+  width: 30%;
+  min-height: 30%;
+  max-height: 80vh;
   border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .modal-header {
-  color: black;
+  margin-bottom: 20px;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
 }
 
 .modal-footer {

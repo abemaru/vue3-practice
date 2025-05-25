@@ -15,33 +15,46 @@ function handleAddTodo(todoContent: string): void {
 </script>
 
 <template>
-  <h1>
-    My ToDo App
-  </h1>
-  <p>
-    You Have {{ tasksLeft }} tasks to do !
-  </p>
-  <h2>
-    Your Tasks
-  </h2>
-  <ul>
-    <li v-for="item of store.todos">
-      <input type="checkbox" v-model="item.status" />
-      <label for="checkbox">
-        {{ item.content }}
-      </label>
-    </li>
-  </ul>
-  <h2>
-    Add Tasks
-  </h2>
-  <button @click="showModal = true">
-    open modal
-  </button>
-  <button @click="store.removeDoneTodos()">
-    remove done
-  </button>
-  <AddTodoModal :visible="showModal" @close="showModal = false" @submit="handleAddTodo" />
+  <div class="todo-app">
+    <header class="app-header">
+      <h1>
+        My ToDo App
+      </h1>
+      <p>
+        You Have {{ tasksLeft }} tasks to do !
+      </p>
+    </header>
+    <main class="app-main">
+      <section class="tasks-session">
+        <h2>
+          Your Tasks
+        </h2>
+        <ul id="task-list" v-if="store.todos.length > 0">
+          <li v-for="item of store.todos">
+            <input type="checkbox" v-model="item.status" />
+            <label for="checkbox">
+              {{ item.content }}
+            </label>
+          </li>
+        </ul>
+        <div v-else>
+          <p>Add your first task and start working!</p>
+        </div>
+      </section>
+      <section class="action-section">
+        <h2>
+          Add Tasks
+        </h2>
+        <button @click="showModal = true">
+          open modal
+        </button>
+        <button @click="store.removeDoneTodos()">
+          remove done
+        </button>
+      </section>
+    </main>
+    <AddTodoModal :visible="showModal" @close="showModal = false" @submit="handleAddTodo" />
+  </div>
 </template>
 
 <style scoped>
