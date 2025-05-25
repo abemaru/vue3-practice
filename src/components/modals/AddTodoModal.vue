@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// TODO: モーダルを開いたときにカーソルをinput要素に充てるようにする
 import { ref, watch } from 'vue';
 
 const { visible = false } = defineProps<{ visible: boolean }>()
