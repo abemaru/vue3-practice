@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// TODO: task-item:completedが効いてない:w
+// TODO: task-item:completedが効いてない
 import { ref, computed } from 'vue'
 import { appStore } from './stores/App.store.ts'
 import AddTodoModal from './components/modals/AddTodoModal.vue'
@@ -45,13 +45,13 @@ function handleAddTodo(todoContent: string): void {
         </div>
       </section>
       <section class="action-section">
-        <h2>
+        <h2 class="section-title">
           Add Tasks
         </h2>
-        <button @click="showModal = true">
+        <button @click="showModal = true" class="btn btn-primary">
           open modal
         </button>
-        <button @click="store.removeDoneTodos()">
+        <button @click="store.removeDoneTodos()" class="btn btn-secondary">
           remove done
         </button>
       </section>
@@ -62,11 +62,11 @@ function handleAddTodo(todoContent: string): void {
 
 <style scoped>
 .todo-app {
+  color: oklch(0.8127 0 5);
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
   line-height: 1.6;
-  color: #9a9a9a;
 }
 
 .app-header {
@@ -79,11 +79,8 @@ function handleAddTodo(todoContent: string): void {
 .app-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #9a9a9a;
   margin: 0 0 1rem 0;
   background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
@@ -107,7 +104,6 @@ function handleAddTodo(todoContent: string): void {
 .section-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2c3e50;
   margin: 0 0 1.5rem 0;
   display: flex;
   align-items: center;
@@ -119,7 +115,7 @@ function handleAddTodo(todoContent: string): void {
   margin: 0;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px oklch(0 0 0 / 89.33%);
   overflow: hidden;
 }
 
@@ -135,6 +131,42 @@ function handleAddTodo(todoContent: string): void {
 .task-item:completed {
   opacity: 0.7;
   text-decoration: line-through;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75em 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn-secondary {
+  border: 2px solid #e9ecef
 }
 
 .logo {
