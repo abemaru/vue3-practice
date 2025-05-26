@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// TODO: モーダルを開いたときにカーソルをinput要素に充てるようにする
-import { ref, watch } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 
 const { visible = false } = defineProps<{ visible: boolean }>()
 
@@ -10,10 +9,13 @@ const emit = defineEmits<{
 }>()
 
 const todoTitle = ref('')
+const titleInput = ref<HTMLInputElement>()
 
-watch(() => visible, (newVal) => {
+watch(() => visible, async (newVal) => {
   if (newVal) {
     todoTitle.value = ''
+    await nextTick()
+    titleInput.value?.focus()
   }
 })
 
@@ -41,7 +43,7 @@ function closeModal(): void {
           <div class="form-group">
             <label for="title">Task Name: </label>
             <br>
-            <input id="title" v-model="todoTitle" type="text" required placeholder="study vue3..." />
+            <input id="title" ref="titleInput" v-model="todoTitle" type="text" required placeholder="study vue3..." />
           </div>
         </form>
       </section>
