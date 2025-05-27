@@ -1,20 +1,23 @@
 import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 
-const TaskStatus = {
-  done: true,
-  working: false,
-} as const;
+//export const TaskStatus = {
+//  done: true,
+//  working: false,
+//} as const;
+export type TaskStatus = "working" | "done";
 
-type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus];
-
-interface Todo {
+interface BaseTodo {
   id: string;
   content: string;
   status: TaskStatus;
 }
 
-const TodoList: Todo[] = [];
+export interface Todo extends BaseTodo {
+  readonly isCompleted: boolean;
+}
+
+const TodoList: BaseTodo[] = [];
 
 export const appStore = defineStore("todo", {
   state: () => {
@@ -22,13 +25,21 @@ export const appStore = defineStore("todo", {
       id: "" as string,
       textInput: "" as string,
       todoList: TodoList,
-      todo: null as Todo | null,
+      todo: null as BaseTodo | null,
     };
   },
 
   getters: {
-    todos: (state) => state.todoList,
+    todos: (state): Todo[] => {
+      return state.todoList.map((todo) => ({
+        ...todo,
+        isCompleted: todo.status === "done",
+      }));
+    },
     countTodos: (state) => state.todoList.length,
+    countIncompleteTodos: (state) => {
+      return state.todoList.filter((todo) => todo.status === "working").length;
+    },
   },
 
   actions: {
@@ -36,12 +47,12 @@ export const appStore = defineStore("todo", {
       this.todoList.push({
         id: uuidv4(),
         content: todoContent,
-        status: TaskStatus.working,
+        status: "working" as TaskStatus,
       });
     },
     removeDoneTodos(): void {
       this.todoList = this.todoList.filter(
-        (item: Todo) => item.status === TaskStatus.working,
+        (item: BaseTodo) => item.status !== "done",
       );
     },
   },

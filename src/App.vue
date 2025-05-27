@@ -7,7 +7,7 @@ import AddTodoModal from './components/modals/AddTodoModal.vue'
 const store = appStore()
 
 const showModal = ref(false)
-const tasksLeft = computed(() => store.countTodos)
+const tasksLeft = computed(() => store.countIncompleteTodos)
 
 function handleAddTodo(todoContent: string): void {
   store.addTodo(todoContent)
@@ -32,9 +32,9 @@ function handleAddTodo(todoContent: string): void {
         </h2>
         <ul id="task-list" v-if="store.todos.length > 0">
           <div class="task-content">
-            <li v-for="item of store.todos" class="task-item" :class="{ 'completed': item.status }">
+            <li v-for="item of store.todos" class="task-item">
               <input type="checkbox" v-model="item.status" />
-              <label for="checkbox">
+              <label for="checkbox" :class="{ 'completed-text': item.isCompleted }">
                 {{ item.content }}
               </label>
             </li>
@@ -131,6 +131,7 @@ function handleAddTodo(todoContent: string): void {
 .task-item:completed {
   opacity: 0.7;
   text-decoration: line-through;
+  color: red;
 }
 
 .task-content {
@@ -138,6 +139,11 @@ function handleAddTodo(todoContent: string): void {
   align-items: center;
   padding: 1rem 1.25rem;
   gap: 0.75rem;
+}
+
+.task-item:completed {
+  text-decoration: line-through;
+  color: red;
 }
 
 .btn {
